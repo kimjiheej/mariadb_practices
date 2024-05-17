@@ -16,51 +16,41 @@ import emaillist.vo.EmaillistVo;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class EmailListDaoTest {
-	
-	
 	private static int count = 0;
-	
-	
+
 	@BeforeAll
 	public static void setUp() {
-	     List<EmaillistVo>  list = new EmaillistDao().findAll();
-	    count = list.size();
+		List<EmaillistVo> list = new EmaillistDao().findAll();
+		count = list.size();
 	}
 	
 	@Test
 	@Order(1)
 	public void testInsert() {
-		
 		EmaillistVo vo = new EmaillistVo();
 		vo.setFirstName("둘");
 		vo.setLastName("리");
 		vo.setEmail("dooly@gmail.com");
 		
 		boolean result = new EmaillistDao().insert(vo);
-		
-		assertTrue(result); // 성공 조건을 단언을 해줘야 한다 
-
+		assertTrue(result);
 	}
-	
 	
 	@Test
 	@Order(2)
-    public void testDeleteByEmail() {
-    	
-    	boolean result = new EmaillistDao().deleteByEmail("dooly@gmail.com");
-        assertTrue(result);
-    }
+	public void testFindAll() {
+		List<EmaillistVo> list = new EmaillistDao().findAll();
+		assertEquals(count + 1, list.size());
+	}
 	
 	@Test
 	@Order(3)
-    public void testFindAll() {
-     List<EmaillistVo>  list = new EmaillistDao().findAll();
-     assertEquals(count + 1, list.size()); 
-    }
-	
+	public void testDeleteByEmail() {
+		boolean result = new EmaillistDao().deleteByEmail("dooly@gmail.com");
+		assertTrue(result);
+	}
+
 	@AfterAll
 	public static void cleanup() {
-		
 	}
-	
 }
