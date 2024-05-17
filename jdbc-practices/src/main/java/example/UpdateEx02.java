@@ -28,7 +28,7 @@ public class UpdateEx02 {
 			Class.forName("org.mariadb.jdbc.Driver");
 			
 			//2. 연결하기
-			String url = "jdbc:mariadb://192.168.0.203:3306/webdb?charset=utf8";
+			String url = "jdbc:mariadb://192.168.0.201:3306/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 
 			//3. Statement 준비

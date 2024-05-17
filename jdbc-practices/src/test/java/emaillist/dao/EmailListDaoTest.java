@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -14,7 +16,16 @@ import emaillist.vo.EmaillistVo;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class EmailListDaoTest {
-
+	
+	
+	private static int count = 0;
+	
+	
+	@BeforeAll
+	public static void setUp() {
+	     List<EmaillistVo>  list = new EmaillistDao().findAll();
+	    count = list.size();
+	}
 	
 	@Test
 	@Order(1)
@@ -44,8 +55,12 @@ public class EmailListDaoTest {
 	@Order(3)
     public void testFindAll() {
      List<EmaillistVo>  list = new EmaillistDao().findAll();
-     assertEquals(1,list.size());
+     assertEquals(count + 1, list.size()); 
     }
 	
+	@AfterAll
+	public static void cleanup() {
+		
+	}
 	
 }
