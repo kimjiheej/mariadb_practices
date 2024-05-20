@@ -1,5 +1,6 @@
 package bookshop.dao;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -17,8 +18,8 @@ import bookshop.vo.BookVo;
 public class BookDaoTest {
 	private static int count = 0;
 	private static AuthorVo mockAuthorVo = new AuthorVo();
-	
 	private static BookVo mockBookVo = new BookVo();
+	
 	private static AuthorDao authorDao = new AuthorDao();
 	private static BookDao bookDao = new BookDao();
 	
@@ -33,10 +34,10 @@ public class BookDaoTest {
 	@Test
 	@Order(1)
 	public void testInsert() {
-	
 		mockBookVo.setTitle("코스모스");
 		mockBookVo.setAuthorNo(mockAuthorVo.getNo());
 		bookDao.insert(mockBookVo);
+		
 		assertNotNull(mockBookVo.getNo());
 	}
 	
@@ -45,16 +46,16 @@ public class BookDaoTest {
 	public void testFindAll() {
 		assertEquals(count + 1, bookDao.findAll().size());
 	}
-
 	
 	@Test
 	@Order(3)
 	public void testUpdate() {
-		 assertEquals(1, bookDao.update(mockBookVo.getNo(), "대여중")); 
+		assertEquals(1, bookDao.update(mockBookVo.getNo(), "대여중"));
 	}
+	
 	@AfterAll
 	public static void cleanUp() {
-	    bookDao.deleteByNo(mockBookVo.getNo());
-	    authorDao.deleteByNo(mockAuthorVo.getNo());
+		bookDao.deleteByNo(mockBookVo.getNo());
+		authorDao.deleteByNo(mockAuthorVo.getNo());
 	}
 }

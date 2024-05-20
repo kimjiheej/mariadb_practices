@@ -1,6 +1,5 @@
 package bookshop.dao;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,11 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.xpath.XPathEvaluationResult.XPathResultType;
-
 import bookshop.vo.BookVo;
-
-
 
 public class BookDao {
 	private Connection getConnection() throws SQLException {
@@ -21,7 +16,7 @@ public class BookDao {
 		
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://192.168.0.203:3306/webdb?charset=utf8";
+			String url = "jdbc:mariadb://192.168.0.201:3306/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
@@ -60,7 +55,6 @@ public class BookDao {
 			PreparedStatement pstmt = conn.prepareStatement("select a.no, a.title, a.status, b.name from book a, author b where a.author_no = b.no order by no desc");
 			ResultSet rs = pstmt.executeQuery();
 		) {
-			
 			while(rs.next()) {
 				Long no = rs.getLong(1);
 				String title = rs.getString(2);
@@ -75,7 +69,6 @@ public class BookDao {
 				
 				result.add(vo);
 			}
-			
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
@@ -84,35 +77,27 @@ public class BookDao {
 	}
 
 	public int deleteByNo(Long no) {
-		
 		int result = 0;
 
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("delete from book where no = ?");
-		
 		) {
 			pstmt.setLong(1, no);
 			result = pstmt.executeUpdate();
-			
-			
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
 		
-		return result;	
-		
-		
+		return result;		
 	}
 
 	public Integer update(Long no, String status) {
-		
 		int result = 0;
 
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("update book set status = ? where no = ?");
-		
 		) {
 			pstmt.setString(1, status);
 			pstmt.setLong(2, no);
@@ -120,7 +105,7 @@ public class BookDao {
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
+		
 		return result;
 	}
-
 }
