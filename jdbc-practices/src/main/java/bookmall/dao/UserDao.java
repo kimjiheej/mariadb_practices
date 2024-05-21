@@ -14,7 +14,6 @@ import bookshop.vo.AuthorVo;
 public class UserDao {
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
-		
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			String url = "jdbc:mariadb://192.168.0.201:3306/bookmall?charset=utf8";
@@ -22,13 +21,13 @@ public class UserDao {
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
 		}
-		
 		return conn;
 	}
 	
+	
+	// 고객 삽입하기 
 	public int insert(UserVo vo) {
 		int result = 0;
-		
 		try (
 				Connection conn = getConnection();
 				PreparedStatement pstmt1 = conn.prepareStatement("insert into user(name, email, password, tel) values(?, ?, ?, ?)");
@@ -39,21 +38,20 @@ public class UserDao {
 			    pstmt1.setString(2, vo.getEmail());
 			    pstmt1.setString(3, vo.getPassword());
 			    pstmt1.setString(4, vo.getTel());
-			
 				result = pstmt1.executeUpdate();
 				ResultSet rs = pstmt2.executeQuery();
 				vo.setNo(rs.next() ? rs.getLong(1) : null);
-				
 			} catch (SQLException e) {
 				System.out.println("error:" + e);
 			}
-			
 			return result;
 	}
+	
 
+	
+	 // 고객 리스트 조회 
 	public List<UserVo> findAll() {
 		List<UserVo> result = new ArrayList<>();
-		
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select no, name, email, password, tel from user order by no");
@@ -68,8 +66,6 @@ public class UserDao {
 				
 				UserVo vo = new UserVo(name,email,password,tel);
 				vo.setNo(no);
-
-			
 				result.add(vo);
 			}
 		} catch (SQLException e) {
@@ -79,24 +75,23 @@ public class UserDao {
 		return result;
 	}
 	
-	// 사용자 삭제
+	
+	// no 를 바탕으로 삭제하기 
     public int deleteByNo(Long no) {
         int result = 0;
-        
         try (
             Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement("delete from user where no = ?");
         ) {
             pstmt.setLong(1, no);
-
             result = pstmt.executeUpdate();
-            
         } catch (SQLException e) {
             System.out.println("error:" + e);
         }
         return result;
     }
+    
 }
-	
+
 	
 
