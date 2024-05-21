@@ -8,6 +8,7 @@ public class OrderVo {
 	private String shipping;
 	private String status;
 	private Long userNo;
+	
 	public Long getNo() {
 		return no;
 	}

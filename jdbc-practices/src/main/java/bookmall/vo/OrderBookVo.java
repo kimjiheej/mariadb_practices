@@ -7,6 +7,7 @@ public class OrderBookVo {
 	private int price;
 	private Long bookNo;
 	private String bookTitle;
+	
 	public Long getOrderNo() {
 		return orderNo;
 	}

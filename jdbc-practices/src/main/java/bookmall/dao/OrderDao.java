@@ -135,14 +135,20 @@ int result = 0;
 	    List<OrderBookVo> result = new ArrayList<>();
 	    
 	    try (
-	        Connection conn = getConnection();
-	        PreparedStatement pstmt = conn.prepareStatement(
-	            "SELECT a.order_no, a.book_no, c.title, a.quantity, a.price " +
-	            "FROM orders_book a " +
-	            "JOIN orders b ON a.order_no = b.no " +
-	            "JOIN book c ON a.book_no = c.no " +
-	            "WHERE b.no = ? AND b.user_no = ?")
-	    ) { 
+	    	    Connection conn = getConnection();
+	    	    PreparedStatement pstmt = conn.prepareStatement(
+	    	        "SELECT \n" +
+	    	        "    a.order_no, \n" +
+	    	        "    a.book_no, \n" +
+	    	        "    (SELECT title FROM book WHERE no = a.book_no) AS title, \n" +
+	    	        "    a.quantity, \n" +
+	    	        "    a.price \n" +
+	    	        "FROM \n" +
+	    	        "    orders_book a \n" +
+	    	        "WHERE \n" +
+	    	        "    a.order_no = (SELECT no FROM orders WHERE no = ? AND user_no = ?);"
+	    	    )
+	    	)  { 
 	        pstmt.setLong(1, orderNo);
 	        pstmt.setLong(2, userNo);
 	        
