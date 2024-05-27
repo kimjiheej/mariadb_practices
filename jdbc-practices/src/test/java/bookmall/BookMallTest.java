@@ -167,7 +167,7 @@ public class BookMallTest {
 		assertEquals(mockBookVo02.getTitle(), list.get(1).getBookTitle());		
 	}
 	
-	/*
+	
 	@AfterAll
 	public static void cleanUp() {
 		//주문책
@@ -194,6 +194,6 @@ public class BookMallTest {
 		userDao.deleteByNo(mockUserVo01.getNo());
 		userDao.deleteByNo(mockUserVo02.getNo());
 	}
-	*/
+	
 	
 }
